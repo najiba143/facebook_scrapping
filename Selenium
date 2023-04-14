@@ -1,0 +1,30 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+
+email = "your_email"
+password = "your_password"
+url = "https://www.facebook.com/"
+
+driver_path = "C:\\Users\\hp\\Documents"
+chrome_options = webdriver.ChromeOptions()
+capabilities = webdriver.DesiredCapabilities.CHROME.copy()
+driver = webdriver.Chrome(executable_path=driver_path, options=chrome_options, desired_capabilities=capabilities)
+
+email_input = driver.find_element_by_id("email")
+email_input.send_keys("youremail")
+
+password_input = driver.find_element_by_id("pass")
+password_input.send_keys("yourpass")
+password_input.send_keys(Keys.RETURN)
+
+# Wait for the login to complete
+time.sleep(5)
+
+search_query = "OUR SELECTED MARKET"
+search_box = driver.find_element_by_css_selector("input[type='search']")
+search_box.send_keys(search_query)
+search_box.send_keys(Keys.RETURN)
+
+# Wait for the search results to load
+time.sleep(5)
