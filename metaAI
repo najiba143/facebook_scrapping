@@ -1,0 +1,19 @@
+from facebook_page_scraper import Facebook_scraper
+
+page_name = "MetaAI"
+post_counts = 10
+browser = "chrome"
+proxy = "IP:PORT"
+timeout = 600
+headless = True
+meta_ai = Facebook_scraper(page_name,post_counts,browser,proxy=proxy,timeout=timeout,headless=headless)
+
+json_data = meta_ai.scrap_to_json()
+print(json_data)
+
+#call scrap_to_csv(filename,directory) method
+
+
+filename = "Fb_3"  #file name without CSV extension,where data will be saved
+directory = "D:\Cybersecurity\Final project" #directory where CSV file will be saved
+meta_ai.scrap_to_csv(filename, directory)
