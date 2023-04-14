@@ -1,0 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+
+page_links = ["link1", "link2", "link3"] //Links from selenium, can be read from CSV
+
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36"
+}
+
+def extract_page_data(url):
+    response = requests.get(url, headers=headers)
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    name = soup.find("title").text
+// Najiba add target data here by checking HTML
+
+    return {
+        "page_name": name,
+//return each targeted data
+    }
+
+page_info_list = []
+
+for link in page_links:
+    page_info = extract_page_data(link)
+    page_info_list.append(page_info)
+
+page_info_df = pd.DataFrame(page_info_list)
+
+page_info_df.to_csv("facebook_page_data.csv", index=False)
