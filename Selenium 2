@@ -1,0 +1,49 @@
+import time
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+email = "your_email"
+password = "your_password"
+driver_path = "path_to_your_webdriver"
+
+driver = webdriver.Chrome(executable_path=driver_path)
+driver.get("https://www.facebook.com/")
+
+email_field = driver.find_element_by_id("email")
+email_field.send_keys(email)
+
+password_field = driver.find_element_by_id("pass")
+password_field.send_keys(password)
+password_field.send_keys(Keys.RETURN)
+
+time.sleep(5)
+
+search_text = "pharmacy"
+search_field = driver.find_element_by_css_selector("input[type='search']")
+search_field.send_keys(search_text)
+search_field.send_keys(Keys.RETURN)
+
+time.sleep(5)
+
+pages_section = driver.find_element_by_link_text("Pages")
+pages_section.click()
+
+time.sleep(5)
+
+page_name_elements = driver.find_elements_by_css_selector("div[data-testid='results'] a span")
+page_link_elements = driver.find_elements_by_css_selector("div[data-testid='results'] a")
+
+page_info = []
+
+for name, link in zip(page_name_elements, page_link_elements):
+    page_info.append({
+        "name": name.text,
+        "link": link.get_attribute("href")
+    })
+
+page_data_df = pd.DataFrame(page_info)
+
+driver.quit()
+
+page_data_df.to_csv("pharmacy_companies_facebook.csv", index=False)
